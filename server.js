@@ -1,6 +1,6 @@
-const express = require("express");
-const { connectToDb, getDb } = require("./db");
-const booksRouter = require("./routes/api/books");
+const express = require('express');
+const connectToDb = require('./db');
+const booksRouter = require('./routes/api/books');
 require('dotenv').config();
 
 const app = express();
@@ -8,17 +8,14 @@ app.use(express.json());
 
 const PORT = process.env.PORT || 5000;
 
-let db;
-
-connectToDb((err) => {
-  if (!err) {
+connectToDb()
+  .then(() => {
     app.listen(PORT, () => {
-      console.log(`Sever started on port: ${PORT}`);
+      console.log(`Server started on port: ${PORT}`);
       console.log(`CONNECTION STRING: ${process.env.CONNECTION_STRING}`);
     });
-    db = getDb();
-  }
-});
+  })
+  .catch(err => console.error('Error connecting to MongoDB:', err));
 
-//routes
-app.use("/api/books", booksRouter);
+app.use('/api/books', booksRouter);
+
