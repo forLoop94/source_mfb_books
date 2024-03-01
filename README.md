@@ -74,6 +74,7 @@ Clone this repository to your desired folder:
 To run the project, execute the following command:
 
 ```sh
+  npm install
   npm run dev in your VSCode terminal
 ```
 
