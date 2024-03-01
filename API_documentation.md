@@ -48,6 +48,25 @@ Status Code: 200 OK
 ]
 ```
 
+Errors:
+
+```sh
+Status code: 500
+"Could not fetch books" for failed request
+```
+
+Notice:
+
+```sh
+Due to pagination for large datasets, maximum of three books can be fetched contained in a page.
+
+To see other pages add the query '?p=<page number>' to the URL
+example:
+
+http://localhost:5000/api/books?p=1  to see page 1
+http://localhost:5000/api/books?p=2  to see page 2
+```
+
 ### 2. GET /books/:id
 
 Retrieve a specific book by its ID
@@ -69,6 +88,16 @@ Status Code: 200 OK
   "author": "Author 1",
   "price": 19.99
 }
+```
+
+Errors:
+
+```sh
+Status code: 500
+"invalid book id" for wrong ID format
+
+Status code: 404
+"Could not find book" for failed request
 ```
 
 ### 3. POST /books
@@ -102,6 +131,20 @@ Status Code: 201 Created
   "author": "New Author",
   "price": 29.99
 }
+```
+
+
+Errors:
+
+```sh
+Status code: 400
+"Please provide all required fields: title, author, price" for incomplete fields
+
+Status code: 409
+"Book with same title already exists" for duplicated titles
+
+Status code: 500
+"Could not fetch books" for failed request
 ```
 
 ### 4. PUT /books/:id
@@ -138,6 +181,15 @@ Status Code: 200 OK
 }
 ```
 
+Errors:
+
+```sh
+Status code: 500
+"invalid book id" for wrong ID format
+
+"Failed to update" for failed request
+```
+
 ### 5. DELETE /books/:id
 
 Delete a book by its ID.
@@ -159,6 +211,15 @@ Status Code: 200 OK
   "author": "Author 1",
   "price": 19.99
 }
+```
+
+Errors:
+
+```sh
+Status code: 500
+"invalid book id" for wrong ID format
+
+"Failed to delete" if ID cannot be found
 ```
 
 
