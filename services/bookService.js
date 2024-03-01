@@ -1,35 +1,29 @@
-const { ObjectId } = require("mongodb");
-const { getDb } = require("../db");
+const Book = require('../models/bookModel');
 
 exports.bookStoreService = async (book) => {
-  const db = getDb();
-  return await db.collection("books").insertOne(book);
+  return await Book.create(book);
 };
 
-exports.booksRetrievalServiceAll = async () => {
-  const db = getDb();
-  console.log({ db });
-  return await db.collection("books").find().toArray();
+exports.booksRetrievalAndPaginationService = async (req) => {
+  // Pagination for large datasets
+  const page = req.query.p || 0;
+  const booksPerPage = 3
+  return await Book.find().skip(page * booksPerPage).limit(booksPerPage);
 };
 
 exports.booksRetrievalServiceSingle = async (id) => {
-  const db = getDb();
-  return await db.collection("books").findOne({ _id: new ObjectId(id) });
+  return await Book.findById(id);
 };
 
 exports.booksUpdateService = async (id, updates) => {
-  const db = getDb();
-  return await db
-    .collection("books")
-    .updateOne({ _id: new ObjectId(id) }, { $set: updates });
+  return await Book.findByIdAndUpdate(id, updates, { new: true });
 };
 
 exports.booksRemovalService = async (id) => {
-  const db = getDb();
-  return await db.collection("books").deleteOne({ _id: new ObjectId(id) });
+  return await Book.findByIdAndDelete(id);
 };
 
 exports.booksRetrievalServiceSingleByTitle = async (title) => {
-  const db = getDb();
-  return await db.collection("books").findOne({ title });
+  return await Book.findOne({ title });
 };
+
